@@ -1,4 +1,4 @@
-package SOC;
+package src;
 
 
 import java.awt.Color;

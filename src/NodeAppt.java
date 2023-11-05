@@ -1,4 +1,4 @@
-package SOC;
+package src;
 
 public class NodeAppt {
 	public NodeAppt link;

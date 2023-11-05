@@ -1,4 +1,4 @@
-package SOC;
+package src;
 
 public class NodeInsAgent {
 	public NodeInsAgent link;

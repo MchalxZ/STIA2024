@@ -1,9 +1,8 @@
-package SOC;
+package src;
 
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.ScrollPane;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,7 +14,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import java.awt.Window.Type;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;

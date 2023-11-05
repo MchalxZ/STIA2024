@@ -1,8 +1,7 @@
-package SOC;
+package src;
 
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.TextArea;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -14,38 +13,26 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumnModel;
 import javax.swing.JButton;
-import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.awt.event.ActionEvent;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.border.MatteBorder;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.SystemColor;
-import javax.swing.UIManager;
 
-public class customerGUI extends JFrame {
+public class InsuranceAgentGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	static int put;
-	public static NodeCust head;
-	public static NodeCust current;
-	public static NodeCust before;
+	public static NodeInsAgent head;
+	public static NodeInsAgent current;
+	public static NodeInsAgent before;
 	public static int count;
 	private static JPanel contentPane;
 	private static JTextField textField;
@@ -64,7 +51,7 @@ public class customerGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					customerGUI frame = new customerGUI();
+					InsuranceAgentGUI frame = new InsuranceAgentGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -73,40 +60,54 @@ public class customerGUI extends JFrame {
 		});
 	}
 
-	public customerGUI() {
-		setBackground(new Color(0, 0, 255));
+	public InsuranceAgentGUI() {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				current = head;
 				while ((current != null)) {
-					char y = current.getInfo().getGender();
+					char y = current.getInfo().getAgentGender();
 					String x = String.valueOf(y);
-					String[] data = { current.getInfo().getName(), current.getInfo().getPassword(),
-							current.getInfo().getIC(), current.getInfo().getPhoneNum(), current.getInfo().getEmail(), x,
-							current.getInfo().getHomeAddr() };
+					String[] data = { current.getInfo().getAgentName(), current.getInfo().getAgentPassword(),
+							current.getInfo().getAgentIC(), current.getInfo().getAgentPhoneNum(), current.getInfo().getAgentEmail(), x,
+							current.getInfo().getAgentHomeAddr() };
 					model.addRow(data);
 					current = current.getLink();
 				}
 				comboBox_1.removeAllItems();
 				current = head;
 				while (current != null) {
-					comboBox_1.addItem(current.getInfo().getIC());
+					comboBox_1.addItem(current.getInfo().getAgentIC());
 					current = current.getLink();
 				}
 			}
 		});
 		setResizable(false);
-		setTitle("Customer");
+		setTitle("insuranceAgent");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 676, 309);
+		setBounds(100, 100, 676, 323);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 255, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		textField = new JTextField();
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_1) {
+					textField.setText("Automatically fill");
+					textField_1.setText("Automatically fill");
+					textField_2.setText("12345678900" + put);
+					textField_3.setText("12345678900" + put);
+					textField_4.setText(put + "email@gmail.com");
+					textField_5.setText("f");
+					textField_6.setText("Automatically fill");
+					put++;
+				}
+			}
+		});
 		textField.setBounds(176, 26, 162, 20);
 		contentPane.add(textField);
 		textField.setColumns(10);
@@ -140,7 +141,6 @@ public class customerGUI extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		JButton btnNewButton = new JButton("Add ");
-		btnNewButton.setBackground(new Color(0, 139, 139));
 		btnNewButton.setBounds(29, 11, 80, 23);
 		panel.add(btnNewButton);
 		btnNewButton.setToolTipText("");
@@ -162,25 +162,24 @@ public class customerGUI extends JFrame {
 		comboBox_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				current = head;
-				while ((current.getLink() != null) && (current.getInfo().getIC() != comboBox_1.getSelectedItem())) {
+				while ((current.getLink() != null) && (current.getInfo().getAgentIC() != comboBox_1.getSelectedItem())) {
 					current = current.getLink();
 				}
-				textField.setText(current.getInfo().getName());
-				textField_1.setText(current.getInfo().getPassword());
+				textField.setText(current.getInfo().getAgentName());
+				textField_1.setText(current.getInfo().getAgentPassword());
 				;
-				textField_2.setText(current.getInfo().getIC());
-				textField_3.setText(current.getInfo().getPhoneNum());
-				textField_4.setText(current.getInfo().getEmail());
-				char gender = current.getInfo().getGender();
+				textField_2.setText(current.getInfo().getAgentIC());
+				textField_3.setText(current.getInfo().getAgentPhoneNum());
+				textField_4.setText(current.getInfo().getAgentEmail());
+				char gender = current.getInfo().getAgentGender();
 				String genders = String.valueOf(gender);
 				textField_5.setText(genders);
-				textField_6.setText(current.getInfo().getHomeAddr());
+				textField_6.setText(current.getInfo().getAgentHomeAddr());
 			}
 		});
 		comboBox_1.setBounds(10, 11, 215, 22);
 		panel_1.add(comboBox_1);
 		JButton btnUpdate = new JButton("Update");
-		btnUpdate.setBackground(new Color(0, 139, 139));
 		btnUpdate.setIcon(null);
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -244,16 +243,16 @@ public class customerGUI extends JFrame {
 					List<String> repetitiveItems = new ArrayList<>();
 
 					while (current != null) {
-						if (!current.getInfo().getIC().equals(selectedIC)) {
-							if (current.getInfo().getIC().equals(ic)) {
+						if (!current.getInfo().getAgentIC().equals(selectedIC)) {
+							if (current.getInfo().getAgentIC().equals(ic)) {
 								repetitiveItems.add("IC");
 							}
 
-							if (current.getInfo().getEmail().equals(email)) {
+							if (current.getInfo().getAgentEmail().equals(email)) {
 								repetitiveItems.add("Email");
 							}
 
-							if (current.getInfo().getPhoneNum().equals(phoneNum)) {
+							if (current.getInfo().getAgentPhoneNum().equals(phoneNum)) {
 								repetitiveItems.add("Phone Number");
 							}
 						}
@@ -271,18 +270,18 @@ public class customerGUI extends JFrame {
 
 					// Update the selected item
 					current = head;
-					while (current != null && !current.getInfo().getIC().equals(selectedIC)) {
+					while (current != null && !current.getInfo().getAgentIC().equals(selectedIC)) {
 						current = current.getLink();
 					}
 
 					if (current != null) {
-						current.getInfo().setName(name);
-						current.getInfo().setIC(ic);
-						current.getInfo().setPassword(password);
-						current.getInfo().setEmail(email);
-						current.getInfo().setHomeAddr(homeAddress);
-						current.getInfo().setPhoneNumber(phoneNum);
-						current.getInfo().setGender(genders);
+						current.getInfo().setAgentName(name);
+						current.getInfo().setAgentIC(ic);
+						current.getInfo().setAgentPassword(password);
+						current.getInfo().setAgentEmail(email);
+						current.getInfo().setAgentHomeAddr(homeAddress);
+						current.getInfo().setAgentPhoneNum(phoneNum);
+						current.getInfo().setAgentGender(genders);
 						JOptionPane.showMessageDialog(null, "Update successful!");
 
 						// Refresh the table and combo box
@@ -290,43 +289,43 @@ public class customerGUI extends JFrame {
 						clearTableData(model);
 						current = head;
 						while (current != null) {
-							char y = current.getInfo().getGender();
+							char y = current.getInfo().getAgentGender();
 							String x = String.valueOf(y);
-							String[] data = { current.getInfo().getName(), current.getInfo().getPassword(),
-									current.getInfo().getIC(), current.getInfo().getPhoneNum(),
-									current.getInfo().getEmail(), x, current.getInfo().getHomeAddr() };
+							String[] data = { current.getInfo().getAgentName(), current.getInfo().getAgentPassword(),
+									current.getInfo().getAgentIC(), current.getInfo().getAgentPhoneNum(),
+									current.getInfo().getAgentEmail(), x, current.getInfo().getAgentHomeAddr() };
 							model.addRow(data);
 							current = current.getLink();
 						}
 						comboBox_1.removeAllItems();
 						current = head;
 						while (current != null) {
-							comboBox_1.addItem(current.getInfo().getIC());
+							comboBox_1.addItem(current.getInfo().getAgentIC());
 							current = current.getLink();
 						}
 					} else {
 						JOptionPane.showMessageDialog(null, "Selected item not found!");
 					}
 				} catch (StringIndexOutOfBoundsException p) {
-					
+					JOptionPane.showMessageDialog(null, "The head is null");
 				}
 			}
 		});
+
 
 		btnUpdate.setToolTipText("");
 		btnUpdate.setBounds(30, 41, 80, 23);
 		panel_1.add(btnUpdate);
 		JButton btnNewButton_1 = new JButton("Delete");
-		btnNewButton_1.setBackground(new Color(0, 139, 139));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					current = head;
-					if (current.getInfo().getIC() == comboBox_1.getSelectedItem()) {
+					if (current.getInfo().getAgentIC() == comboBox_1.getSelectedItem()) {
 						head = head.getLink();
 					} else {
 						current = head;
-						while (current.getInfo().getIC() != comboBox_1.getSelectedItem()) {
+						while (current.getInfo().getAgentIC() != comboBox_1.getSelectedItem()) {
 							before = current;
 							current = current.getLink();
 						}
@@ -337,18 +336,18 @@ public class customerGUI extends JFrame {
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
 					clearTableData(model);
 					while ((current != null)) {
-						char y = current.getInfo().getGender();
+						char y = current.getInfo().getAgentGender();
 						String x = String.valueOf(y);
-						String[] data = { current.getInfo().getName(), current.getInfo().getPassword(),
-								current.getInfo().getIC(), current.getInfo().getPhoneNum(),
-								current.getInfo().getEmail(), x, current.getInfo().getHomeAddr() };
+						String[] data = { current.getInfo().getAgentName(), current.getInfo().getAgentPassword(),
+								current.getInfo().getAgentIC(), current.getInfo().getAgentPhoneNum(),
+								current.getInfo().getAgentEmail(), x, current.getInfo().getAgentHomeAddr() };
 						model.addRow(data);
 						current = current.getLink();
 					}
 					comboBox_1.removeAllItems();
 					current = head;
 					while (current != null) {
-						comboBox_1.addItem(current.getInfo().getIC());
+						comboBox_1.addItem(current.getInfo().getAgentIC());
 						current = current.getLink();
 					}
 				} catch (NullPointerException r) {
@@ -356,6 +355,7 @@ public class customerGUI extends JFrame {
 				}
 			}
 		});
+
 		btnNewButton_1.setBounds(120, 41, 89, 23);
 		panel_1.add(btnNewButton_1);
 		textField_4 = new JTextField();
@@ -379,22 +379,23 @@ public class customerGUI extends JFrame {
 		textField_7 = new JTextField();
 		textField_7.addKeyListener(new KeyAdapter() {
 			@Override
+			
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					current = head;
 					String texter = textField_7.getText();
 					try {
-						while (!current.getInfo().getIC().equals(texter)) {
+						while (!current.getInfo().getAgentIC().equals(texter)) {
 							current = current.getLink();
 						}
 						JOptionPane.showMessageDialog(null, "Target found");
 						JOptionPane.showMessageDialog(null,
-								"The name is " + current.getInfo().getName() + "\n" + "The password is "
-										+ current.getInfo().getIC() + "\n" + "The IC is " + current.getInfo().getIC()
-										+ "\n" + "The Phone Number is " + current.getInfo().getPhoneNum() + "\n"
-										+ "The Email is " + current.getInfo().getEmail() + "\n" + "The Gender is "
-										+ current.getInfo().getGender() + "\n" + "The Home Address is "
-										+ current.getInfo().getHomeAddr(),"Customer details",JOptionPane.PLAIN_MESSAGE);
+								"The name is " + current.getInfo().getAgentName() + "\n" + "The password is "
+										+ current.getInfo().getAgentIC() + "\n" + "The IC is " + current.getInfo().getAgentIC()
+										+ "\n" + "The Phone Number is " + current.getInfo().getAgentPhoneNum() + "\n"
+										+ "The Email is " + current.getInfo().getAgentEmail() + "\n" + "The Gender is "
+										+ current.getInfo().getAgentGender() + "\n" + "The Home Address is "
+										+ current.getInfo().getAgentHomeAddr(),"Insurance agent details",JOptionPane.PLAIN_MESSAGE);
 					} catch (NullPointerException f) {
 						JOptionPane.showMessageDialog(null, "Target Not FOUND!");
 						textField_7.setText("");
@@ -449,7 +450,6 @@ public class customerGUI extends JFrame {
 		table.setGridColor(Color.BLACK);
 
 		JButton btnNewButton_2 = new JButton("Return");
-		btnNewButton_2.setBackground(new Color(0, 139, 139));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				menu x = new menu();
@@ -461,10 +461,9 @@ public class customerGUI extends JFrame {
 		contentPane.add(btnNewButton_2);
 		
 		JButton btnNewButton_3 = new JButton("View");
-		btnNewButton_3.setBackground(new Color(0, 139, 139));
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				viewFrame_cust x = new viewFrame_cust();
+				viewFrame_agent x = new viewFrame_agent();
 				dispose();
 				x.setVisible(true);
 				
@@ -485,8 +484,8 @@ public class customerGUI extends JFrame {
 					String gender = textField_5.getText();
 					char genders = gender.charAt(0);
 					String homeAddress = textField_6.getText();
-					Customer a = new Customer(name, password, ic, phoneNum, email, genders, homeAddress);
-					NodeCust newNode = new NodeCust(a);
+					insuranceAgent a = new insuranceAgent(name, password, ic, phoneNum, email, genders, homeAddress);
+					NodeInsAgent newNode = new NodeInsAgent(a);
 					if (!ic.matches("\\d+")) {
 						JOptionPane.showMessageDialog(null, "IC should only contains numeric data");
 						return;
@@ -522,31 +521,31 @@ public class customerGUI extends JFrame {
 						return;
 					}
 					if (head != null) {// Checking for IC repetition
-						current = head;
-						while ((!current.getInfo().getIC().equals(ic)) && (current.getLink() != null)) {
+						current = head;		
+						while ((!current.getInfo().getAgentIC().equals(ic)) && (current.getLink() != null)) {
 							current = current.getLink();
 						}
-						if (current.getInfo().getIC().equals(ic)) {
+						if (current.getInfo().getAgentIC().equals(ic)) {
 							JOptionPane.showMessageDialog(null, "IC Repetitive");
 							return;
 						}
 					}
 					if (head != null) {// Checking for email repetition
 						current = head;
-						while ((!current.getInfo().getEmail().equals(email)) && (current.getLink() != null)) {
+						while ((!current.getInfo().getAgentEmail().equals(email)) && (current.getLink() != null)) {
 							current = current.getLink();
 						}
-						if (current.getInfo().getEmail().equals(email)) {
+						if (current.getInfo().getAgentEmail().equals(email)) {
 							JOptionPane.showMessageDialog(null, "Email Repetitive");
 							return;
 						}
 					}
 					if (head != null) {// Checking for phoneNumber repetition
 						current = head;
-						while ((!current.getInfo().getPhoneNum().equals(phoneNum)) && (current.getLink() != null)) {
+						while ((!current.getInfo().getAgentPhoneNum().equals(phoneNum)) && (current.getLink() != null)) {
 							current = current.getLink();
 						}
-						if (current.getInfo().getPhoneNum().equals(phoneNum)) {
+						if (current.getInfo().getAgentPhoneNum().equals(phoneNum)) {
 							JOptionPane.showMessageDialog(null, "Phone Number Repetitive");
 							return;
 						}
@@ -555,7 +554,7 @@ public class customerGUI extends JFrame {
 						head = newNode;
 						count++;
 						JOptionPane.showMessageDialog(null, "Add successful");
-						comboBox_1.addItem(newNode.getInfo().getIC());
+						comboBox_1.addItem(newNode.getInfo().getAgentIC());
 
 					} else {
 						current = head;
@@ -565,7 +564,7 @@ public class customerGUI extends JFrame {
 						current.setLink(newNode);
 						JOptionPane.showMessageDialog(null, "Add successful");
 						count++;
-						comboBox_1.addItem(newNode.getInfo().getIC());
+						comboBox_1.addItem(newNode.getInfo().getAgentIC());
 					}
 					current = head;
 					String[] data = { name, password, ic, phoneNum, email, gender, homeAddress};
@@ -584,6 +583,8 @@ public class customerGUI extends JFrame {
 				textField_4.setText("");
 				textField_5.setText("");
 				textField_6.setText("");
+				textField.grabFocus();
+
 			}
 		});
 

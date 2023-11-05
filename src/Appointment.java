@@ -1,7 +1,6 @@
-package SOC;
+package src;
 
 import java.time.LocalTime;
-import java.util.Date;
 
 public class Appointment {
 	private String apptName;

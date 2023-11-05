@@ -1,6 +1,4 @@
-package SOC;
-
-import java.util.List;
+package src;
 
 public class Customer {
 	private String custName;

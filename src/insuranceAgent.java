@@ -1,4 +1,4 @@
-package SOC;
+package src;
 
 public class insuranceAgent {
 	private String agentName;

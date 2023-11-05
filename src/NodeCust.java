@@ -1,4 +1,4 @@
-package SOC;
+package src;
 
 public class NodeCust {
 	public NodeCust link;
